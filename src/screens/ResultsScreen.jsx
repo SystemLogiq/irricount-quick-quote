@@ -6,10 +6,10 @@
 
 import { useState } from 'react'
 import { fmt, fmtHrs, buildProposalLine } from '../utils/calculations'
-import { generatePDF } from '../utils/pdf'
+import { generateClientProposalPDF, generateInternalPDF, generateMaterialsListPDF } from '../utils/pdf'
 import { saveQuote } from '../utils/storage'
 
-export default function ResultsScreen({ inputs, results, settings, onBack, onSaved }) {
+export default function ResultsScreen({ inputs, results, settings, prices, onBack, onSaved }) {
   const [saved, setSaved] = useState(false)
 
   function handleSave() {
@@ -18,12 +18,20 @@ export default function ResultsScreen({ inputs, results, settings, onBack, onSav
     onSaved?.()
   }
 
-  function handlePDF() {
-    generatePDF(inputs, results, settings)
+  function handleClientPDF() {
+    generateClientProposalPDF(inputs, results, settings)
+  }
+
+  function handleInternalPDF() {
+    generateInternalPDF(inputs, results, settings)
+  }
+
+  function handleMaterialsPDF() {
+    generateMaterialsListPDF(inputs, results, settings, prices)
   }
 
   const { costs, labor } = results
-  const proposalLine = buildProposalLine(inputs, results)
+  const proposalLine = buildProposalLine(inputs, results, settings)
 
   return (
     <div className="flex flex-col h-full">
@@ -75,7 +83,7 @@ export default function ResultsScreen({ inputs, results, settings, onBack, onSav
             <Stat label="Rotor GPM" value={fmt(results.rotorGpm)} />
             <Stat label="System GPM" value={fmt(results.systemGpm)} />
             <Stat label="Avail GPM" value={results.availableGpm} />
-            <Stat label="Min Zones" value={results.minZones} accent />
+            <Stat label={results.effectiveZones > results.minZones ? `Zones (min ${results.minZones})` : 'Min Zones'} value={results.effectiveZones ?? results.minZones} accent />
             <Stat label="Main Line" value={results.mainLineSize} />
             <Stat label="Spray Lat" value={`${results.sprayLateral} ft`} />
             <Stat label="Rotor Lat" value={`${results.rotorLateral} ft`} />
@@ -147,34 +155,57 @@ export default function ResultsScreen({ inputs, results, settings, onBack, onSav
       </div>
 
       {/* Action buttons */}
-      <div className="flex-shrink-0 px-4 py-3 bg-field-surface border-t border-field-border flex gap-2">
-        <button
-          type="button"
-          onClick={handlePDF}
-          className="tap-btn flex-1 h-12 bg-field-elevated border border-field-border text-field-text text-sm font-semibold rounded-xl"
-        >
-          📄 PDF
-        </button>
-        <button
-          type="button"
-          onClick={handleSave}
-          disabled={saved}
-          className={[
-            'tap-btn flex-1 h-12 text-sm font-semibold rounded-xl border',
-            saved
-              ? 'bg-field-elevated border-field-border text-field-muted cursor-default'
-              : 'bg-field-positive border-field-positive text-field-bg',
-          ].join(' ')}
-        >
-          {saved ? '✓ Saved' : '💾 Save'}
-        </button>
-        <button
-          type="button"
-          onClick={onBack}
-          className="tap-btn flex-1 h-12 bg-field-elevated border border-field-border text-field-sub text-sm font-semibold rounded-xl"
-        >
-          ‹ Edit
-        </button>
+      <div className="flex-shrink-0 px-4 py-3 bg-field-surface border-t border-field-border space-y-2">
+        {/* PDF row — top */}
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={handleClientPDF}
+            className="tap-btn flex-1 h-12 bg-field-elevated border border-field-border text-field-text text-sm font-semibold rounded-xl"
+          >
+            📄 Client Proposal
+          </button>
+          <button
+            type="button"
+            onClick={handleInternalPDF}
+            className="tap-btn flex-1 h-12 bg-field-elevated border border-field-border text-field-text text-sm font-semibold rounded-xl"
+          >
+            🔒 Internal Estimate
+          </button>
+        </div>
+        {/* PDF row — materials list */}
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={handleMaterialsPDF}
+            className="tap-btn flex-1 h-12 bg-field-elevated border border-field-border text-field-text text-sm font-semibold rounded-xl"
+          >
+            📦 Materials List
+          </button>
+        </div>
+        {/* Save / Edit row */}
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saved}
+            className={[
+              'tap-btn flex-1 h-12 text-sm font-semibold rounded-xl border',
+              saved
+                ? 'bg-field-elevated border-field-border text-field-muted cursor-default'
+                : 'bg-field-positive border-field-positive text-field-bg',
+            ].join(' ')}
+          >
+            {saved ? '✓ Saved' : '💾 Save'}
+          </button>
+          <button
+            type="button"
+            onClick={onBack}
+            className="tap-btn flex-1 h-12 bg-field-elevated border border-field-border text-field-sub text-sm font-semibold rounded-xl"
+          >
+            ‹ Edit
+          </button>
+        </div>
       </div>
     </div>
   )
