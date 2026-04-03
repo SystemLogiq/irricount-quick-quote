@@ -12,6 +12,7 @@ import SettingsScreen from './screens/SettingsScreen'
 import SavedQuotesScreen from './screens/SavedQuotesScreen'
 import { calculate } from './utils/calculations'
 import { loadSettings, loadPrices, DEFAULT_INPUTS } from './utils/storage'
+import PasswordGate from './components/PasswordGate'
 
 export default function App() {
   const [screen, setScreen] = useState('input')
@@ -51,6 +52,7 @@ export default function App() {
   const showNav = navScreens.includes(screen)
 
   return (
+  <PasswordGate>
     <div
       className="flex flex-col h-full max-w-md mx-auto relative"
       style={{ paddingBottom: showNav ? 'calc(64px + env(safe-area-inset-bottom))' : 0 }}
@@ -95,5 +97,6 @@ export default function App() {
         <Nav screen={screen} onNavigate={navigate} />
       )}
     </div>
+  </PasswordGate>
   )
 }
