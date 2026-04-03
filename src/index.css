@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+    background-color: #0f172a;
+    color: #f1f5f9;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Remove number input spinners */
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type=number] { -moz-appearance: textfield; }
+}
+
+@layer components {
+  .tap-btn {
+    @apply min-h-tap flex items-center justify-center rounded-lg font-semibold
+           transition-colors duration-100 active:scale-95 select-none cursor-pointer;
+  }
+
+  .card {
+    @apply bg-field-surface rounded-xl border border-field-border;
+  }
+
+  .section-label {
+    @apply text-xs font-semibold uppercase tracking-widest text-field-sub mb-3;
+  }
+
+  .input-base {
+    @apply w-full bg-field-elevated border border-field-border rounded-lg px-4 py-3
+           text-field-text text-lg font-mono text-right focus:outline-none
+           focus:ring-2 focus:ring-field-accent focus:border-field-accent
+           placeholder:text-field-muted;
+  }
+}
