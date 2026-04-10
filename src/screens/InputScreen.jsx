@@ -50,8 +50,7 @@ export default function InputScreen({ inputs, settings, onChange, onCalculate })
     <div className="flex flex-col h-full">
       {/* Header */}
       <header className="bg-field-surface border-b border-field-border px-4 py-3 flex-shrink-0">
-        <p className="text-xs font-semibold text-field-accent uppercase tracking-widest">IrriCount</p>
-        <h1 className="text-xl font-bold text-field-text leading-tight">Quick Quote</h1>
+        <img src="/IC_Dark_BG.svg" alt="IrriCount" style={{ height: '48px', width: 'auto' }} />
       </header>
 
       {/* Scrollable form */}

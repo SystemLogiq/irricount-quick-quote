@@ -34,12 +34,7 @@ export default function PasswordGate({ children }) {
       fontFamily: "Arial, sans-serif"
     }}>
       <div style={{ marginBottom: "32px", textAlign: "center" }}>
-        <div style={{ fontSize: "28px", fontWeight: "bold", color: "#00876A" }}>
-          IrriCount
-        </div>
-        <div style={{ fontSize: "13px", color: "#007A99", marginTop: "4px" }}>
-          fueled by SystemLogiq
-        </div>
+        <img src="/IC_Dark_BG.svg" alt="IrriCount" style={{ height: "48px", width: "auto" }} />
       </div>
 
       <form onSubmit={handleSubmit} style={{

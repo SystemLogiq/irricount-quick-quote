@@ -96,8 +96,7 @@ export default function SubscriptionGate({ children }) {
     return (
       <div style={styles.container}>
         <div style={styles.logoRow}>
-          <div style={styles.logo}>IrriCount</div>
-          <div style={styles.subtitle}>fueled by SystemLogiq</div>
+          <img src="/IC_Dark_BG.svg" alt="IrriCount" style={{ height: '48px', width: 'auto' }} />
         </div>
         <div style={styles.loadingText}>
           {status === 'verifying' ? 'Confirming payment\u2026' : 'Loading\u2026'}
@@ -109,8 +108,7 @@ export default function SubscriptionGate({ children }) {
   return (
     <div style={styles.container}>
       <div style={styles.logoRow}>
-        <div style={styles.logo}>IrriCount</div>
-        <div style={styles.subtitle}>fueled by SystemLogiq</div>
+        <img src="/IC_Dark_BG.svg" alt="IrriCount" style={{ height: '48px', width: 'auto' }} />
         <div style={styles.valueStatement}>
           Professional irrigation quoting — built for the field.
         </div>
